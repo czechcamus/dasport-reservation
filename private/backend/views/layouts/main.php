@@ -35,19 +35,24 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => Yii::t('back', 'Home'), 'url' => ['/site/index']],
+        ['label' => Yii::t('back', 'Reservation'), 'items' => [
+            ['label' => Yii::t('back', 'Requests'), 'url' => ['/request/index']],
+            ['label' => Yii::t('back', 'Devices'), 'url' => ['/device/index']]
+        ], 'visible' => !Yii::$app->user->isGuest],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => Yii::t('back', 'Login'), 'url' => ['/site/login']];
     } else {
+        /** @noinspection PhpUndefinedFieldInspection */
         $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                       . Html::beginForm(['/site/logout'], 'post')
+                       . Html::submitButton(
+                Yii::t('back', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link']
             )
-            . Html::endForm()
-            . '</li>';
+                       . Html::endForm()
+                       . '</li>';
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

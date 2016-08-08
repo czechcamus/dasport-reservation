@@ -37,14 +37,34 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
+        'i18n' => [
+	        'translations' => [
+		        'back*' => [
+			        'class' => 'yii\i18n\PhpMessageSource',
+			        'basePath' => '@backend/messages',
+			        'fileMap' => [
+				        'back' => 'back.php',
+				        'back/error' => 'error.php',
+			        ],
+		        ],
+		        'app*' => [
+			        'class' => 'yii\i18n\PhpMessageSource',
+			        'basePath' => '@common/messages',
+			        'fileMap' => [
+				        'app' => 'app.php',
+				        'app/error' => 'error.php',
+			        ],
+		        ],
+	        ],
         ],
-        */
+	    /*
+		'urlManager' => [
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
+			'rules' => [
+			],
+		],
+		*/
     ],
     'params' => $params,
 ];
