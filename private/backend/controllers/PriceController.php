@@ -57,6 +57,7 @@ class PriceController extends Controller
 	 */
 	public function actionCopy($id)
 	{
+		//TODO dodělat
 		$model = new SubjectForm(['item_id' => $id, 'action' => $this->action->id]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
