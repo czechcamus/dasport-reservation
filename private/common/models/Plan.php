@@ -37,7 +37,7 @@ class Plan extends ActiveRecord
 		$thisBehaviors = [
 			'relationDelete' => [
 				'class' => RelationsDelete::className(),
-				'relations' => 'weeks'
+				'relations' => ['weeks']
 			]
 		];
 		return ArrayHelper::merge($parentBehaviors, $thisBehaviors);

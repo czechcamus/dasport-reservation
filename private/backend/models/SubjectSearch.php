@@ -2,25 +2,25 @@
 /**
  * Created by PhpStorm.
  * User: Pavel
- * Date: 8.8.2016
- * Time: 9:45
+ * Date: 9.8.2016
+ * Time: 9:06
  */
 
 namespace backend\models;
 
 
-use common\models\Device;
+use common\models\Subject;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class DeviceSearch extends Device
-{
+class SubjectSearch extends Subject {
+
 	/**
 	 * @inheritdoc
 	 */
 	public function rules() {
 		return [
-			[['title', 'text_id'], 'safe']
+			[ [ 'name', 'email', 'phone' ], 'safe' ]
 		];
 	}
 
@@ -34,29 +34,33 @@ class DeviceSearch extends Device
 
 	/**
 	 * Creates data provider instance with search query applied
+	 *
 	 * @param $params
+	 *
 	 * @return ActiveDataProvider
 	 */
 	public function search( $params ) {
 		$query = parent::find();
 
-		if (!isset($params['sort']))
-			$query->orderBy(['title' => SORT_ASC]);
+		if ( ! isset( $params['sort'] ) ) {
+			$query->orderBy( [ 'name' => SORT_ASC ] );
+		}
 
-		$dataProvider = new ActiveDataProvider([
+		$dataProvider = new ActiveDataProvider( [
 			'query' => $query,
-		]);
+		] );
 
-		$this->load($params);
+		$this->load( $params );
 
-		if (!$this->validate()) {
+		if ( ! $this->validate() ) {
 			// uncomment the following line if you do not want to any records when validation fails
 			// $query->where('0=1');
 			return $dataProvider;
 		}
 
-		$query->andFilterWhere(['like', 'title', $this->title]);
-		$query->andFilterWhere(['like', 'text_id', $this->text_id]);
+		$query->andFilterWhere( [ 'like', 'name', $this->name ] );
+		$query->andFilterWhere( [ 'like', 'email', $this->email ] );
+		$query->andFilterWhere( [ 'like', 'phone', $this->phone ] );
 
 		return $dataProvider;
 	}

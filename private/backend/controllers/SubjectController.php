@@ -9,16 +9,16 @@
 namespace backend\controllers;
 
 
-use backend\models\DeviceForm;
-use backend\models\DeviceSearch;
-use common\models\Device;
+use backend\models\SubjectForm;
+use backend\models\SubjectSearch;
+use common\models\Subject;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class DeviceController extends Controller
+class SubjectController extends Controller
 {
 	/**
 	 * @inheritdoc
@@ -50,7 +50,7 @@ class DeviceController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new DeviceSearch;
+		$searchModel = new SubjectSearch;
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		return $this->render('index', compact('searchModel', 'dataProvider'));
@@ -58,33 +58,21 @@ class DeviceController extends Controller
 
 
 	/**
-	 * Displays a single model.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionView($id)
-	{
-		return $this->render('view', [
-			'model' => $this->findModel($id),
-		]);
-	}
-
-	/**
 	 * Creates a new record model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * If creation is successful, the browser will be redirected to the 'index' page.
 	 * @return mixed
 	 */
 	public function actionCreate()
 	{
-		$model = new DeviceForm(['item_id' => null, 'action' => $this->action->id]);
+		$model = new SubjectForm(['item_id' => null, 'action' => $this->action->id]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->save();
 
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'New device successfully added!'));
+			$session->setFlash('info', Yii::t('back', 'New subject successfully added!'));
 
-			return $this->redirect(['view', 'id' => $model->item_id]);
+			return $this->redirect(['index']);
 		}
 
 		return $this->render('create', compact('model'));
@@ -92,21 +80,21 @@ class DeviceController extends Controller
 
 	/**
 	 * Creates a new model from an existing model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * If creation is successful, the browser will be redirected to the 'index' page.
 	 * @param $id
 	 * @return mixed
 	 */
 	public function actionCopy($id)
 	{
-		$model = new DeviceForm(['item_id' => $id, 'action' => $this->action->id]);
+		$model = new SubjectForm(['item_id' => $id, 'action' => $this->action->id]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->save();
 
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'New device successfully added!'));
+			$session->setFlash('info', Yii::t('back', 'New subject successfully added!'));
 
-			return $this->redirect(['view', 'id' => $model->item_id]);
+			return $this->redirect(['index']);
 		}
 
 		return $this->render('create', compact('model'));
@@ -114,21 +102,21 @@ class DeviceController extends Controller
 
 	/**
 	 * Updates an existing record model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * If update is successful, the browser will be redirected to the 'index' page.
 	 * @param integer $id
 	 * @return mixed
 	 */
 	public function actionUpdate($id)
 	{
-		$model = new DeviceForm(['item_id' => $id, 'action' => $this->action->id]);
+		$model = new SubjectForm(['item_id' => $id, 'action' => $this->action->id]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->save(false);
 
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'Device successfully updated!'));
+			$session->setFlash('info', Yii::t('back', 'Subject successfully updated!'));
 
-			return $this->redirect(['view', 'id' => $model->item_id]);
+			return $this->redirect(['index']);
 		}
 		return $this->render('update', compact('model'));
 	}
@@ -144,7 +132,7 @@ class DeviceController extends Controller
 		$model = $this->findModel($id);
 		if ($model->delete()) {
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'Device successfully deleted!'));
+			$session->setFlash('info', Yii::t('back', 'Subject successfully deleted!'));
 		}
 
 		return $this->redirect(['index']);
@@ -154,12 +142,12 @@ class DeviceController extends Controller
 	 * Finds the model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param integer $id
-	 * @return Device the loaded model
+	 * @return Subject the loaded model
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id)
 	{
-		if (($model = Device::findOne($id)) !== null) {
+		if (($model = Subject::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

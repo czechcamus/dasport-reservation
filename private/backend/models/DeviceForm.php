@@ -11,6 +11,7 @@ namespace backend\models;
 
 use backend\utilities\BackendForm;
 use common\models\Device;
+use common\utilities\TextIdValidator;
 use Yii;
 
 class DeviceForm extends BackendForm {
@@ -31,13 +32,7 @@ class DeviceForm extends BackendForm {
 			[ [ 'text_id', 'title' ], 'required' ],
 			[ [ 'description' ], 'string' ],
 			[ [ 'text_id', 'title' ], 'string', 'max' => 50 ],
-			[
-				[ 'text_id' ],
-				'unique',
-				'targetClass' => Device::className(),
-				'on' => self::SCENARIO_CREATE
-			],
-			[ [ 'text_id', 'title' ], 'safe', 'on' => self::SCENARIO_SEARCH ],
+			[ [ 'text_id' ], TextIdValidator::className() ]
 		];
 	}
 

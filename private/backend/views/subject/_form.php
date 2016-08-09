@@ -1,9 +1,9 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model backend\models\DeviceForm */
+/* @var $model backend\models\SubjectForm */
 /* @var $form yii\bootstrap\ActiveForm */
 
-use backend\models\DeviceForm;
+use backend\models\SubjectForm;
 use yii\bootstrap\ActiveField;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -20,9 +20,9 @@ $actionId = $this->context->action->id;
 			'fieldClass' => ActiveField::className()
 		]); ?>
 
-		<?= $form->field($model, 'title')->textInput(['size' => 50, 'maxlength' => true]) ?>
-		<?= $form->field($model, 'text_id')->textInput(['size' => 50, 'maxlength' => true]) ?>
-		<?= $form->field($model, 'description')->textarea() ?>
+		<?= $form->field($model, 'name')->textInput(['size' => 50, 'maxlength' => 50]) ?>
+		<?= $form->field($model, 'email')->textInput(['size' => 50, 'maxlength' => 50]) ?>
+		<?= $form->field($model, 'phone')->textInput(['size' => 20, 'maxlength' => 20]) ?>
 
 		<div class="form-group">
 			<?= Html::submitButton($actionId != 'update' ? Yii::t('back', 'Create') : Yii::t('back', 'Update'), [

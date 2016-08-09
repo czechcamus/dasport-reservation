@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\utilities\NameValidator;
 use common\utilities\RelationsDelete;
 use Yii;
 use yii\db\ActiveRecord;
@@ -35,7 +36,7 @@ class Subject extends ActiveRecord
 		$thisBehaviors = [
 			'relationDelete' => [
 				'class' => RelationsDelete::className(),
-				'relations' => 'usages'
+				'relations' => ['usages']
 			]
 		];
 		return ArrayHelper::merge($parentBehaviors, $thisBehaviors);
@@ -49,8 +50,9 @@ class Subject extends ActiveRecord
         return [
             [['name', 'email', 'phone'], 'required'],
             [['name', 'email'], 'string', 'max' => 50],
+	        [['email'], 'email'],
             [['phone'], 'string', 'max' => 20],
-            [['name'], 'unique'],
+	        ['name', NameValidator::className()]
         ];
     }
 

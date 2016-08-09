@@ -18,9 +18,6 @@ class BackendForm extends Model {
 	public $item_id;
 	public $modelClass;
 
-	const SCENARIO_CREATE = 'create';
-	const SCENARIO_SEARCH = 'search';
-
 	/**
 	 * BackendForm constructor.
 	 *

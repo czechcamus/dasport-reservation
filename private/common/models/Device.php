@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\utilities\RelationsDelete;
+use common\utilities\TextIdValidator;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -53,7 +54,7 @@ class Device extends ActiveRecord
             [['text_id', 'title'], 'required'],
             [['description'], 'string'],
             [['text_id', 'title'], 'string', 'max' => 50],
-            [['text_id'], 'unique'],
+            [['text_id'], TextIdValidator::className()],
         ];
     }
 

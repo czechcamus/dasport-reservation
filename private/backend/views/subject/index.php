@@ -1,14 +1,14 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\DeviceSearch */
+/* @var $searchModel backend\models\SubjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-$this->title = Yii::t('back', 'Devices');
+$this->title = Yii::t('back', 'Subjects');
 $this->params['breadcrumbs'][] = $this->title;
-$modelClass = Yii::t('back', 'Device');
+$modelClass = Yii::t('back', 'Subject');
 ?>
 <div>
 
@@ -29,36 +29,21 @@ $modelClass = Yii::t('back', 'Device');
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 
+			'name',
+			'email',
+			'phone',
 			[
-				'attribute' => 'title',
-				'value' => function($model, $key) {
-					return Html::a($model->title, ['/device/view', 'id' => $key], ['title' => Yii::t('back', 'Details of device')]);
-				},
-				'format' => 'html'
-			],
-			'text_id',
-			[
+				//TODO dodělat url
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{update} {delete} {copy} {usage}',
+				'template' => '{update} {delete} {copy}',
 				'buttons' => [
 					'copy' => function ($url, $model, $key) {
 						return Html::a('<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>', [
-							'/device/copy',
+							'/subject/copy',
 							'id' => $key
 						],
 						[
 							'title' => Yii::t('back', 'Copy'),
-							'class' => 'btn btn-link',
-							'style' => 'padding: 0 0 3px'
-						]);
-					},
-					'usage' => function ($url, $model, $key) {
-						return Html::a('<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>', [
-							'device/usage',
-							'id' => $key
-						],
-						[
-							'title' => Yii::t('back', 'Usage'),
 							'class' => 'btn btn-link',
 							'style' => 'padding: 0 0 3px'
 						]);

@@ -1,6 +1,7 @@
 
 <?php
 
+use backend\widgets\PriceList;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -11,7 +12,7 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('back', 'Devices'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="device-view">
+<div>
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
@@ -34,5 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			'description',
 		],
 	]) ?>
+
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<?= Html::a(Yii::t('back', 'Add price'), ['/price/create', 'device_id' => $model->id], [
+				'class' => 'btn btn-success'
+			]); ?>
+			<?= PriceList::widget(['device_id' => $model->id]); ?>
+		</div>
+	</div>
 
 </div>
