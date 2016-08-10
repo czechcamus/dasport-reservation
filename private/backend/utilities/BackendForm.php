@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
 use yii\db\Exception;
 
 class BackendForm extends Model {
+
 	public $item_id;
 	public $modelClass;
 

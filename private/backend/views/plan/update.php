@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model \backend\models\PriceForm */
+/* @var $model \backend\models\PlanForm */
 
-/** @var \backend\controllers\PriceController $controller */
+/** @var \backend\controllers\PlanController $controller */
 $controller = $this->context;
-$modelClass = Yii::t('back', 'Price');
-$this->title = Yii::t('back', 'Update {modelClass}: ', compact('modelClass')) . ' ' . $model->title;
+$modelClass = Yii::t('back', 'Plan');
+$this->title = Yii::t('back', 'Update {modelClass} for', compact('modelClass')) . ': ' . Yii::$app->formatter->asDate($model->date_from, 'php:d.m.Y') . ' - ' . Yii::$app->formatter->asDate($model->date_to, 'php:d.m.Y');
 $this->params['breadcrumbs'][] = [ 'label' => Yii::t( 'back', 'Devices' ), 'url' => [ '/device/index' ] ];
 $this->params['breadcrumbs'][] = [ 'label' => $controller->device->title, 'url' => [ '/device/view', 'id' => $controller->device->id ] ];
 $this->params['breadcrumbs'][] = $this->title;

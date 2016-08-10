@@ -1,12 +1,13 @@
 
 <?php
 
+use backend\widgets\PlanList;
 use backend\widgets\PriceList;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Device */
+/* @var $model \common\models\Device */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('back', 'Devices'), 'url' => ['index']];
@@ -42,6 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				'class' => 'btn btn-success'
 			]); ?>
 			<?= PriceList::widget(['device_id' => $model->id]); ?>
+		</div>
+		<div class="col-xs-12 col-md-6">
+			<?= Html::a(Yii::t('back', 'Add plan'), ['/plan/create', 'device_id' => $model->id], [
+				'class' => 'btn btn-success'
+			]); ?>
+			<?= PlanList::widget(['device_id' => $model->id]); ?>
 		</div>
 	</div>
 

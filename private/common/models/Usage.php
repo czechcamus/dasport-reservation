@@ -53,7 +53,7 @@ class Usage extends ActiveRecord
             'device_id' => Yii::t('app', 'Device ID'),
             'subject_id' => Yii::t('app', 'Subject ID'),
             'date' => Yii::t('app', 'Date'),
-            'hour_nr' => Yii::t('app', 'Hour Nr'),
+            'hour_nr' => Yii::t('app', 'Hour Nr.'),
             'notice' => Yii::t('app', 'Notice'),
         ];
     }

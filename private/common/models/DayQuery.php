@@ -5,11 +5,11 @@ namespace common\models;
 use yii\db\ActiveQuery;
 
 /**
- * This is the ActiveQuery class for [[Week]].
+ * This is the ActiveQuery class for [[Day]].
  *
- * @see Week
+ * @see Day
  */
-class WeekQuery extends ActiveQuery
+class DayQuery extends ActiveQuery
 {
     /*public function active()
     {
@@ -18,7 +18,7 @@ class WeekQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return Week[]|array
+     * @return Day[]|array
      */
     public function all($db = null)
     {
@@ -27,7 +27,7 @@ class WeekQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return Week|array|null
+     * @return Day|array|null
      */
     public function one($db = null)
     {

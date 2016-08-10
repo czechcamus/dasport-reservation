@@ -14,6 +14,7 @@ use common\models\Price;
 use Yii;
 
 class PriceForm extends BackendForm {
+
 	public $title;
 	public $price;
 	public $notice;
@@ -32,7 +33,7 @@ class PriceForm extends BackendForm {
 	public function rules() {
 		return [
 			[ [ 'title', 'price' ], 'required' ],
-			[ [ 'title' ], 'string', 'max' => 50 ],
+			[ 'title', 'string', 'max' => 50 ],
 			[ 'price', 'integer' ],
 			[ 'notice', 'string' ]
 		];

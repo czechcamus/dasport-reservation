@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model \backend\models\PriceForm */
+/* @var $model \backend\models\PlanForm */
 
-/** @var \backend\controllers\PriceController $controller */
+/** @var \backend\controllers\PlanController $controller */
 $controller                    = $this->context;
-$modelClass                    = Yii::t( 'back', 'Price' );
+$modelClass                    = Yii::t( 'back', 'Plan' );
 $this->title                   = Yii::t( 'back', 'Create {modelClass}', compact( 'modelClass' ) );
 $this->params['breadcrumbs'][] = [ 'label' => Yii::t( 'back', 'Devices' ), 'url' => [ '/device/index' ] ];
 $this->params['breadcrumbs'][] = [ 'label' => $controller->device->title, 'url' => [ '/device/view', 'id' => $controller->device->id ] ];

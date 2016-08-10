@@ -39,7 +39,7 @@ $modelClass = Yii::t('back', 'Device');
 			'text_id',
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{update} {delete} {copy} {usage}',
+				'template' => '{update} {delete} {copy}',
 				'buttons' => [
 					'copy' => function ($url, $model, $key) {
 						return Html::a('<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>', [
@@ -48,17 +48,6 @@ $modelClass = Yii::t('back', 'Device');
 						],
 						[
 							'title' => Yii::t('back', 'Copy'),
-							'class' => 'btn btn-link',
-							'style' => 'padding: 0 0 3px'
-						]);
-					},
-					'usage' => function ($url, $model, $key) {
-						return Html::a('<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>', [
-							'device/usage',
-							'id' => $key
-						],
-						[
-							'title' => Yii::t('back', 'Usage'),
 							'class' => 'btn btn-link',
 							'style' => 'padding: 0 0 3px'
 						]);

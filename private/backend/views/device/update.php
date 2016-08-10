@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Device */
+/* @var $model \backend\models\DeviceForm */
 
 /** @var \backend\controllers\DeviceController $controller */
 $controller = $this->context;

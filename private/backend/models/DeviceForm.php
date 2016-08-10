@@ -15,6 +15,7 @@ use common\utilities\TextIdValidator;
 use Yii;
 
 class DeviceForm extends BackendForm {
+
 	public $text_id;
 	public $title;
 	public $description;

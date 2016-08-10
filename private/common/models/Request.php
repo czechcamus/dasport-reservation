@@ -55,11 +55,11 @@ class Request extends ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'device_id' => Yii::t('app', 'Device ID'),
             'date' => Yii::t('app', 'Date'),
-            'time_from' => Yii::t('app', 'Time From'),
-            'time_to' => Yii::t('app', 'Time To'),
-            'subject_name' => Yii::t('app', 'Subject Name'),
-            'subject_email' => Yii::t('app', 'Subject Email'),
-            'subject_phone' => Yii::t('app', 'Subject Phone'),
+            'time_from' => Yii::t('app', 'Time from'),
+            'time_to' => Yii::t('app', 'Time to'),
+            'subject_name' => Yii::t('app', 'Subject name'),
+            'subject_email' => Yii::t('app', 'Subject email'),
+            'subject_phone' => Yii::t('app', 'Subject phone'),
             'notice' => Yii::t('app', 'Notice'),
         ];
     }

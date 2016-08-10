@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Subject */
+/* @var $model \backend\models\SubjectForm */
 
 /** @var \backend\controllers\SubjectController $controller */
 $controller = $this->context;

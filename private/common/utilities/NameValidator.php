@@ -16,7 +16,7 @@ class NameValidator extends Validator
 {
 	public function init() {
 		parent::init();
-		$this->message = \Yii::t('back', 'This name of subject is already used!');
+		$this->message = \Yii::t('app', 'This name of subject is already used!');
 	}
 
 	public function validateAttribute( $model, $attribute ) {

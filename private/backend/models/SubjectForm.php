@@ -15,6 +15,7 @@ use common\utilities\NameValidator;
 use Yii;
 
 class SubjectForm extends BackendForm {
+
 	public $name;
 	public $email;
 	public $phone;

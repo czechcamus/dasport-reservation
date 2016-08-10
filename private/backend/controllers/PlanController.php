@@ -9,14 +9,14 @@
 namespace backend\controllers;
 
 
-use backend\models\PriceForm;
+use backend\models\PlanForm;
 use backend\utilities\DeviceFilter;
-use common\models\Price;
+use common\models\Plan;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class PriceController extends Controller
+class PlanController extends Controller
 {
 	public $device;
 
@@ -32,20 +32,32 @@ class PriceController extends Controller
 	}
 
 	/**
+	 * Displays a single model.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionView($id)
+	{
+		return $this->render('view', [
+			'model' => $this->findModel($id),
+		]);
+	}
+
+	/**
 	 * Creates a new record model.
-	 * If creation is successful, the browser will be redirected to the 'device/view' page.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = new PriceForm(['device_id' => $this->device->id,  'item_id' => null, 'action' => $this->action->id]);
+		$model = new PlanForm(['device_id' => $this->device->id,  'item_id' => null, 'action' => $this->action->id]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->save();
 
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'New price successfully added!'));
+			$session->setFlash('info', Yii::t('back', 'New plan successfully added!'));
 
-			return $this->redirect(['/device/view', 'id' => $this->device->id]);
+			return $this->redirect(['view', 'device_id' => $this->device->id, 'id' => $model->item_id]);
 		}
 
 		return $this->render('create', compact('model'));
@@ -53,21 +65,21 @@ class PriceController extends Controller
 
 	/**
 	 * Creates a new model from an existing model.
-	 * If creation is successful, the browser will be redirected to the 'device/view' page.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @param $id
 	 * @return mixed
 	 */
 	public function actionCopy($id)
 	{
-		$model = new PriceForm(['device_id' => $this->device->id,  'item_id' => $id, 'action' => $this->action->id]);
+		$model = new PlanForm(['device_id' => $this->device->id,  'item_id' => $id, 'action' => $this->action->id]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->save();
 
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'New price successfully added!'));
+			$session->setFlash('info', Yii::t('back', 'New plan successfully added!'));
 
-			return $this->redirect(['/device/view', 'id' => $this->device->id]);
+			return $this->redirect(['view', 'device_id' => $this->device->id, 'id' => $model->item_id]);
 		}
 
 		return $this->render('create', compact('model'));
@@ -75,21 +87,21 @@ class PriceController extends Controller
 
 	/**
 	 * Updates an existing record model.
-	 * If update is successful, the browser will be redirected to the 'device/view' page.
+	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id
 	 * @return mixed
 	 */
 	public function actionUpdate($id)
 	{
-		$model = new PriceForm(['device_id' => $this->device->id,  'item_id' => $id, 'action' => $this->action->id]);
+		$model = new PlanForm(['device_id' => $this->device->id,  'item_id' => $id, 'action' => $this->action->id]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->save(false);
 
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'Price successfully updated!'));
+			$session->setFlash('info', Yii::t('back', 'Plan successfully updated!'));
 
-			return $this->redirect(['/device/view', 'id' => $this->device->id]);
+			return $this->redirect(['view', 'device_id' => $this->device->id, 'id' => $model->item_id]);
 		}
 		return $this->render('update', compact('model'));
 	}
@@ -105,7 +117,7 @@ class PriceController extends Controller
 		$model = $this->findModel($id);
 		if ($model->delete()) {
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'Price successfully deleted!'));
+			$session->setFlash('info', Yii::t('back', 'Plan successfully deleted!'));
 		}
 
 		return $this->redirect(['/device/view', 'id' => $this->device->id]);
@@ -115,12 +127,12 @@ class PriceController extends Controller
 	 * Finds the model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param integer $id
-	 * @return Price the loaded model
+	 * @return Plan the loaded model
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id)
 	{
-		if (($model = Price::findOne($id)) !== null) {
+		if (($model = Plan::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

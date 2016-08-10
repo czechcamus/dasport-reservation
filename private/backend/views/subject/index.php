@@ -33,7 +33,6 @@ $modelClass = Yii::t('back', 'Subject');
 			'email',
 			'phone',
 			[
-				//TODO dodělat url
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{update} {delete} {copy}',
 				'buttons' => [

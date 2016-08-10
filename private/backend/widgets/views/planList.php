@@ -7,22 +7,27 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 ?>
-<h2><?= Yii::t('back', 'Prices'); ?></h2>
+<h2><?= Yii::t('back', 'Plans'); ?></h2>
 
 <?= /** @noinspection PhpUnusedParameterInspection */
 GridView::widget([
 	'dataProvider' => $dataProvider,
 	'layout' => "{items}",
 	'columns' => [
-		'title',
-		'price',
-		'notice',
+		[
+			'attribute' => 'date_from',
+			'format' => ['date', 'php:d.m.Y']
+		],
+		[
+			'attribute' => 'date_to',
+			'format' => ['date', 'php:d.m.Y']
+		],
 		[
 			'class' => 'yii\grid\ActionColumn',
-			'template' => '{update} {delete} {copy}',
+			'template' => '{update} {delete} {copy} {view}',
 			'urlCreator' => function($action, $model, $key) {
 				$params = [
-					'/price/' . $action,
+					'/plan/' . $action,
 					'device_id' => $model->device_id,
 					'id' => $key
 				];
