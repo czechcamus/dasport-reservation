@@ -151,6 +151,21 @@ class DeviceController extends Controller
 	}
 
 	/**
+	 * Displays list of days with usage information
+	 * @return string
+	 */
+	public function actionDayList() {
+		$dayList = $this->renderPartial('_dayList', [
+			'firstDate' => Yii::$app->request->post('firstDate'),
+			'lastDate' => Yii::$app->request->post('lastDate')
+		]);
+		return $this->render('view', [
+			'id' => Yii::$app->request->post('device_id'),
+			'dayList' => $dayList
+		]);
+	}
+
+	/**
 	 * Finds the model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param integer $id
