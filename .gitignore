@@ -22,8 +22,6 @@ Thumbs.db
 composer.phar
 
 # Mac DS_Store Files
-.DS_Store
-
 # phpunit itself is not needed
 phpunit.phar
 # local phpunit config
@@ -36,3 +34,6 @@ phpunit.phar
 private/common/tests/_support/_generated/*
 private/frontend/tests/_support/_generated/*
 private/backend/tests/_support/_generated/*
+/private/common/config/main-local.php
+/private/backend/config/main-local.php
+/private/frontend/config/main-local.php

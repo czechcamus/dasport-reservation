@@ -6,6 +6,7 @@ use common\utilities\RelationsDelete;
 use common\utilities\TextIdValidator;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -101,6 +102,21 @@ class Device extends ActiveRecord
     public function getUsages()
     {
         return $this->hasMany(Usage::className(), ['device_id' => 'id']);
+    }
+
+	/**
+	 * Gets default period dates
+	 * @return array
+	 */
+	public function getDefaultPeriod() {
+		$firstDate = (new Query())->select('date_from')->from('dr_plan')->where(['device_id' => $this->id])->andWhere(['date_from' => date('Y-m-d', time())])->scalar();
+		if (!$firstDate) {
+			$firstDate = (new Query())->select('date_from')->from('dr_plan')->where(['device_id' => $this->id])->andWhere(['>', 'date_from', date('Y-m-d', time())])->scalar();
+		}
+		return [
+			'first' => $firstDate,
+			'last' => date('Y-m-d', strtotime($firstDate) + (Yii::$app->params['dayListDefaultPeriod'] * 86400))
+		];
     }
 
     /**

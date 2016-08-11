@@ -8,6 +8,7 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model \common\models\Device */
+/* @var $filterDate array */
 
 $this->title                   = $model->title;
 $this->params['breadcrumbs'][] = [ 'label' => Yii::t( 'back', 'Devices' ), 'url' => [ 'index' ] ];
@@ -58,25 +59,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				<h2><?= Yii::t('back', 'Usage overview'); ?></h2>
 
-				<?= Html::beginForm(['/device/dayList'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+				<?= Html::beginForm(['view', 'id' => $model->id], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
-				<?= Html::label(Yii::t('back', 'First date'), 'firstDate'); ?>
+				<?= Html::label(Yii::t('back', 'First date')); ?>
 				<?= DateControl::widget( [
-					'name'  => 'firstDate',
-					'value' => time(),
+					'name'  => 'filterDate[first]',
+					'value' => $filterDate['first'],
 					'type'  => DateControl::FORMAT_DATE,
 					'language' => Yii::$app->language
 				] ); ?>
 
-				<?= Html::label(Yii::t('back', 'Last date'), 'lastDate'); ?>
+				<?= Html::label(Yii::t('back', 'Last date')); ?>
 				<?= DateControl::widget( [
-					'name'  => 'lastDate',
-					'value' => time(),
+					'name'  => 'filterDate[last]',
+					'value' => $filterDate['last'],
 					'type'  => DateControl::FORMAT_DATE,
 					'language' => Yii::$app->language
 				] ); ?>
-
-				<?= Html::hiddenInput('device_id', $model->id); ?>
 
 				<?= Html::submitButton(Yii::t('back', 'ok'), [
 					'class' => 'btn btn-default'

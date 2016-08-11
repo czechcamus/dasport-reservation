@@ -64,9 +64,14 @@ class DeviceController extends Controller
 	 */
 	public function actionView($id)
 	{
-		return $this->render('view', [
-			'model' => $this->findModel($id),
-		]);
+		$model = $this->findModel($id);
+		if ($filterDate = Yii::$app->request->post('filterDate')) {
+			die('OK ' . var_dump(Yii::$app->request->post()));
+		} else {
+			$filterDate = $model->getDefaultPeriod();
+		}
+
+		return $this->render('view', compact('model', 'filterDate'));
 	}
 
 	/**
@@ -148,21 +153,6 @@ class DeviceController extends Controller
 		}
 
 		return $this->redirect(['index']);
-	}
-
-	/**
-	 * Displays list of days with usage information
-	 * @return string
-	 */
-	public function actionDayList() {
-		$dayList = $this->renderPartial('_dayList', [
-			'firstDate' => Yii::$app->request->post('firstDate'),
-			'lastDate' => Yii::$app->request->post('lastDate')
-		]);
-		return $this->render('view', [
-			'id' => Yii::$app->request->post('device_id'),
-			'dayList' => $dayList
-		]);
 	}
 
 	/**
