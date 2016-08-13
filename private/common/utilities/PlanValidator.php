@@ -12,6 +12,12 @@ namespace common\utilities;
 use common\models\Plan;
 use yii\validators\Validator;
 
+/**
+ * Class PlanValidator checks if plan period is not in conflict with another plan
+ * Validated attribute is last date
+ * @param $firstAttribute string first date of period
+ * @package common\utilities
+ */
 class PlanValidator extends Validator {
 	public $firstAttribute;
 

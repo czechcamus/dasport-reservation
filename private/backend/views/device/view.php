@@ -3,12 +3,14 @@
 use backend\widgets\PlanList;
 use backend\widgets\PriceList;
 use kartik\datecontrol\DateControl;
+use yii\bootstrap\ActiveField;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model \common\models\Device */
-/* @var $filterDate array */
+/* @var $periodModel \backend\models\PeriodForm */
 
 $this->title                   = $model->title;
 $this->params['breadcrumbs'][] = [ 'label' => Yii::t( 'back', 'Devices' ), 'url' => [ 'index' ] ];
@@ -53,38 +55,40 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 	</div>
 
-	<?php if ( $model->plans ): ?>
+	<?php if ( $periodModel->existsActualPlans($model->id) ): ?>
 		<div class="row">
 			<div class="col-xs-12">
 
 				<h2><?= Yii::t('back', 'Usage overview'); ?></h2>
 
-				<?= Html::beginForm(['view', 'id' => $model->id], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+				<?php $form = ActiveForm::begin( [
+					'layout' => 'inline',
+					'fieldClass' => ActiveField::className(),
+					'fieldConfig' => [
+						'labelOptions' => ['class' => ''],
+						'enableError' => true,
+					]] ); ?>
 
-				<?= Html::label(Yii::t('back', 'First date')); ?>
-				<?= DateControl::widget( [
-					'name'  => 'filterDate[first]',
-					'value' => $filterDate['first'],
-					'type'  => DateControl::FORMAT_DATE,
+				<?= $form->field( $periodModel, 'firstDate' )->widget( DateControl::className(), [
+					'type'     => DateControl::FORMAT_DATE,
 					'language' => Yii::$app->language
-				] ); ?>
+				] ) ?>
 
-				<?= Html::label(Yii::t('back', 'Last date')); ?>
-				<?= DateControl::widget( [
-					'name'  => 'filterDate[last]',
-					'value' => $filterDate['last'],
-					'type'  => DateControl::FORMAT_DATE,
+				<?= $form->field( $periodModel, 'lastDate' )->widget( DateControl::className(), [
+					'type'     => DateControl::FORMAT_DATE,
 					'language' => Yii::$app->language
-				] ); ?>
+				] ) ?>
 
-				<?= Html::submitButton(Yii::t('back', 'ok'), [
-					'class' => 'btn btn-default'
-				]) ?>
+				<?= Html::submitButton( Yii::t( 'back', 'OK' ), [
+					'class' => 'btn btn-default',
+					'style' => 'position: relative; top: -5px;'
+				] ) ?>
 
-				<?php Html::endForm(); ?>
+				<?php ActiveForm::end(); ?>
 
 			</div>
 		</div>
+
 	<?php endif; ?>
 
 </div>

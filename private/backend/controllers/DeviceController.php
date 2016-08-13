@@ -11,6 +11,7 @@ namespace backend\controllers;
 
 use backend\models\DeviceForm;
 use backend\models\DeviceSearch;
+use backend\models\PeriodForm;
 use common\models\Device;
 use Yii;
 use yii\filters\AccessControl;
@@ -65,13 +66,14 @@ class DeviceController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->findModel($id);
-		if ($filterDate = Yii::$app->request->post('filterDate')) {
-			die('OK ' . var_dump(Yii::$app->request->post()));
+		$periodModel = new PeriodForm(['device_id' => $id]);
+		if ($periodModel->load(Yii::$app->request->post())) {
+			$periodModel->validate();
 		} else {
-			$filterDate = $model->getDefaultPeriod();
+			$periodModel->setDefaultPeriod($id);
 		}
 
-		return $this->render('view', compact('model', 'filterDate'));
+		return $this->render('view', compact('model', 'periodModel'));
 	}
 
 	/**

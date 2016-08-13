@@ -11,6 +11,12 @@ namespace common\utilities;
 
 use yii\validators\Validator;
 
+/**
+ * Class DateToDateValidator compares two dates in format Y-m-d
+ * @param $compareAttribute string attribute to compare with validated attribute
+ * @param $operator string - one of '<', '<=', '>', '>=', '!=' or anything what is interpreted as '='
+ * @package common\utilities
+ */
 class DateToDateValidator extends Validator
 {
 	public $compareAttribute;
@@ -23,37 +29,37 @@ class DateToDateValidator extends Validator
 		switch ($this->operator) {
 			case "<":
 				if (!($value1 < $value2)) {
-					$this->message = \Yii::t('app', 'First date must be smaller then last date!');
+					$this->message = $model->getAttributeLabel($attribute) . ' ' . \Yii::t('app', 'must be smaller then') . ' ' . $model->getAttributeLabel($this->compareAttribute) . '!';
 					$error = true;
 				}
 				break;
 			case "<=":
 				if (!($value1 <= $value2)) {
-					$this->message = \Yii::t('app', 'First date must be smaller or equal then last date!');
+					$this->message = $model->getAttributeLabel($attribute) . ' ' . \Yii::t('app', 'must be smaller or equal then') . ' ' . $model->getAttributeLabel($this->compareAttribute) . '!';
 					$error = true;
 				}
 				break;
 			case "!=":
 				if (!($value1 != $value2)) {
-					$this->message = \Yii::t('app', 'First date must not be equal last date!');
+					$this->message = $model->getAttributeLabel($attribute) . ' ' . \Yii::t('app', 'must not be equal') . ' ' . $model->getAttributeLabel($this->compareAttribute) . '!';
 					$error = true;
 				}
 				break;
 			case ">":
 				if (!($value1 > $value2)) {
-					$this->message = \Yii::t('app', 'First date must be greater then last date!');
+					$this->message = $model->getAttributeLabel($attribute) . ' ' . \Yii::t('app', 'must be greater then') . ' ' . $model->getAttributeLabel($this->compareAttribute) . '!';
 					$error = true;
 				}
 				break;
 			case ">=":
 				if (!($value1 >= $value2)) {
-					$this->message = \Yii::t('app', 'First date must be greater or equal then last date!');
+					$this->message = $model->getAttributeLabel($attribute) . ' ' . \Yii::t('app', 'must be greater or equal then') . ' ' . $model->getAttributeLabel($this->compareAttribute) . '!';
 					$error = true;
 				}
 				break;
 			default:
 				if (!($value1 == $value2)) {
-					$this->message = \Yii::t('app', 'First date must be equal then last date!');
+					$this->message = $model->getAttributeLabel($attribute) . ' ' . \Yii::t('app', 'must be equal then') . ' ' . $model->getAttributeLabel($this->compareAttribute) . '!';
 					$error = true;
 				}
 				break;
