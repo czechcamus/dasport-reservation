@@ -2,6 +2,7 @@
 
 use backend\widgets\PlanList;
 use backend\widgets\PriceList;
+use backend\widgets\UsageOverview;
 use kartik\datecontrol\DateControl;
 use yii\bootstrap\ActiveField;
 use yii\bootstrap\ActiveForm;
@@ -55,19 +56,20 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 	</div>
 
-	<?php if ( $periodModel->existsActualPlans($model->id) ): ?>
+	<?php if ( $periodModel->existsActualPlans( $model->id ) ): ?>
 		<div class="row">
 			<div class="col-xs-12">
 
-				<h2><?= Yii::t('back', 'Usage overview'); ?></h2>
+				<h2><?= Yii::t( 'back', 'Usage overview' ); ?></h2>
 
 				<?php $form = ActiveForm::begin( [
-					'layout' => 'inline',
-					'fieldClass' => ActiveField::className(),
+					'layout'      => 'inline',
+					'fieldClass'  => ActiveField::className(),
 					'fieldConfig' => [
-						'labelOptions' => ['class' => ''],
-						'enableError' => true,
-					]] ); ?>
+						'labelOptions' => [ 'class' => '' ],
+						'enableError'  => true,
+					]
+				] ); ?>
 
 				<?= $form->field( $periodModel, 'firstDate' )->widget( DateControl::className(), [
 					'type'     => DateControl::FORMAT_DATE,
@@ -88,6 +90,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 			</div>
 		</div>
+
+		<?= UsageOverview::widget( [ 'periodModel' => $periodModel ] ); ?>
 
 	<?php endif; ?>
 

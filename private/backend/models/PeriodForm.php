@@ -9,6 +9,7 @@
 namespace backend\models;
 
 
+use common\models\Device;
 use common\models\Plan;
 use common\utilities\DateFutureValidator;
 use common\utilities\DatePlanValidator;
@@ -21,12 +22,11 @@ use yii\db\Query;
 class PeriodForm extends Model {
 	public $firstDate;
 	public $lastDate;
-
-	private $_device_id;
+	public $device;
 
 	public function __construct( $config ) {
 		parent::__construct();
-		$this->_device_id = $config['device_id'];
+		$this->device = Device::findOne($config['device_id']);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class PeriodForm extends Model {
 			[ [ 'firstDate', 'lastDate' ], 'required' ],
 			[ [ 'firstDate', 'lastDate' ], 'date', 'format' => 'y-MM-dd' ],
 			[ 'firstDate', DateFutureValidator::className() ],
-			[ [ 'firstDate', 'lastDate' ], DatePlanValidator::className(), 'device_id' => $this->_device_id ],
+			[ [ 'firstDate', 'lastDate' ], DatePlanValidator::className(), 'device_id' => $this->device->id ],
 			[ 'firstDate', DateToDateValidator::className(), 'compareAttribute' => 'lastDate', 'operator' => '<='],
 
 		];
