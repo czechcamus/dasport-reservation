@@ -65,12 +65,17 @@ class DeviceController extends Controller
 	 */
 	public function actionView($id)
 	{
+		$session = Yii::$app->session;
 		$model = $this->findModel($id);
 		$periodModel = new PeriodForm(['device_id' => $id]);
 		if ($periodModel->load(Yii::$app->request->post())) {
-			$periodModel->validate();
+			if ($periodModel->validate()) {
+				$session->set('periodModel', $periodModel);
+			}
 		} else {
-			$periodModel->setDefaultPeriod($id);
+			if (!$periodModel = $session->get('periodModel')) {
+				$periodModel->setDefaultPeriod($id);
+			}
 		}
 
 		return $this->render('view', compact('model', 'periodModel'));

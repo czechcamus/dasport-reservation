@@ -19,7 +19,7 @@ GridView::widget( [
 			'label' => Yii::t( 'back', 'Period' ),
 			'format' => 'html',
 			'value' => function ( $model, $key) {
-				return Html::a(Yii::$app->formatter->asDate($model->date_from, 'php:d.m.Y') . ' - ' . Yii::$app->formatter->asDate($model->date_to, 'php:d.m.Y'), ['/plan/view', 'device_id' => $model->device_id, 'id' => $key]);
+				return Html::a(Yii::$app->formatter->asDate($model->date_from, 'php:d.m.Y') . ' - ' . Yii::$app->formatter->asDate($model->date_to, 'php:d.m.Y'), ['/plan/view', 'device_id' => $model->device_id, 'id' => $key], ['title' => Yii::t('back', 'Details of plan')]);
 			}
 		],
 		[
