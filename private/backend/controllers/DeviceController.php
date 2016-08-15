@@ -73,7 +73,9 @@ class DeviceController extends Controller
 				$session->set('periodModel', $periodModel);
 			}
 		} else {
-			if (!$periodModel = $session->get('periodModel')) {
+			if ($session->get('periodModel')) {
+				$periodModel = $session->get('periodModel');
+			} else {
 				$periodModel->setDefaultPeriod($id);
 			}
 		}
