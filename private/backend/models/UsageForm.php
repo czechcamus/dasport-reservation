@@ -13,9 +13,10 @@ use backend\utilities\BackendForm;
 use common\models\Day;
 use common\models\Plan;
 use common\models\Usage;
+use common\utilities\DateToDateValidator;
+use common\utilities\NameValidator;
 use InvalidArgumentException;
 use Yii;
-use yii\base\Exception;
 
 class UsageForm extends BackendForm {
 
@@ -23,9 +24,20 @@ class UsageForm extends BackendForm {
 	public $date;
 	public $time_from;
 	public $time_to;
+	public $repetition;
+	public $name;
+	public $email;
+	public $phone;
+	public $notice;
 
 	private $_plan;
 	private $_dayTimes;
+
+	const NO_REPEAT = 0;
+	const DAY_REPEAT = 1;
+	const WEEK_REPEAT = 2;
+	const TWO_WEEK_REPEAT = 3;
+	const MONTH_REPEAT = 4;
 
 	public function __construct( $config ) {
 		$this->_plan = Plan::findOne($config['plan_id']);
@@ -39,7 +51,13 @@ class UsageForm extends BackendForm {
 	 */
 	public function rules() {
 		return [
-			[ [ 'subject_id', 'date', 'time_from', 'time_to' ], 'safe' ]
+			[ [ 'name', 'email' ], 'string', 'max' => 50 ],
+			[ 'name', NameValidator::className() ],
+			[ 'email' , 'email' ],
+			[ [ 'phone' ], 'string', 'max' => 20 ],
+			[ 'time_from', DateToDateValidator::className(), 'compareAttribute' => 'time_to', 'operator' => '<'],
+			[ 'repetition' , 'boolean' ],
+			[ 'notice', 'string' ]
 		];
 	}
 
@@ -50,21 +68,61 @@ class UsageForm extends BackendForm {
 		return [
 			'subject_id' => Yii::t('app', 'Subject'),
 			'date' => Yii::t('app', 'Date'),
+			'name' => Yii::t('app', 'Name'),
+			'email' => Yii::t('app', 'Email'),
+			'phone' => Yii::t('app', 'Phone'),
 			'time_from' => Yii::t('app', 'Time from'),
 			'time_to' => Yii::t('app', 'Time to'),
+			'repetition' => Yii::t('app', 'Repetition'),
+			'notice' => Yii::t('app', 'Notice')
 		];
 	}
 
+	/**
+	 * Sets date attribute
+	 * @param $date
+	 */
 	public function setDate( $date ) {
 		$this->date = $date;
 		$this->setDayTimes();
 	}
 
+	/**
+	 * Sets time from and time to attribute
+	 * @param $hour_nr
+	 */
 	public function setTimes($hour_nr) {
-		$this->time_from = $this->_dayTimes[$hour_nr];
-		$this->time_to = $this->_dayTimes[++$hour_nr];
+		if ($this->_dayTimes) {
+			$this->time_from = $this->_dayTimes[$hour_nr];
+			$this->time_to = $this->_dayTimes[++$hour_nr];
+		}
 	}
 
+	/**
+	 * Returns repeat options array
+	 * @return array
+	 */
+	public function getRepeatOptions() {
+		return [
+			self::NO_REPEAT => Yii::t('back', 'no repeat'),
+			self::DAY_REPEAT => Yii::t('back', 'daily'),
+			self::WEEK_REPEAT => Yii::t('back', 'weekly'),
+			self::TWO_WEEK_REPEAT => Yii::t('back', 'fortnightly'),
+			self::MONTH_REPEAT => Yii::t('back', 'monthly')
+		];
+	}
+
+	/**
+	 * Returns day times array
+	 * @return array
+	 */
+	public function getDayTimes() {
+		return $this->_dayTimes ?: [];
+	}
+
+	/**
+	 * Sets day times array
+	 */
 	private function setDayTimes() {
 		if ($this->date == null) {
 			throw new InvalidArgumentException( Yii::t( 'back', 'Date not set!' ) );

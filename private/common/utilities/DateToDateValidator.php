@@ -12,7 +12,7 @@ namespace common\utilities;
 use yii\validators\Validator;
 
 /**
- * Class DateToDateValidator compares two dates in format Y-m-d
+ * Class DateToDateValidator compares two dates in format Y-m-d or times in format H:i
  * @param $compareAttribute string attribute to compare with validated attribute
  * @param $operator string - one of '<', '<=', '>', '>=', '!=' or anything what is interpreted as '='
  * @package common\utilities

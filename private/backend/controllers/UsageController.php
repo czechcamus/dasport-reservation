@@ -41,13 +41,15 @@ class UsageController extends Controller
 
 		$model = new UsageForm(['plan_id' => $this->plan->id,  'item_id' => null, 'action' => $this->action->id]);
 
-		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-			$model->save();
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				$model->save();
 
-			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'New usage(s) successfully added!'));
+				$session = Yii::$app->session;
+				$session->setFlash('info', Yii::t('back', 'New usage(s) successfully added!'));
 
-			return $this->redirect(['device/view', 'id' => $this->plan->device->id]);
+				return $this->redirect(['device/view', 'id' => $this->plan->device->id]);
+			}
 		} else {
 			$model->setDate($date);
 			$model->setTimes($hour_nr);

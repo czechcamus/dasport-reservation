@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=dasport',
+            'dsn' => 'mysql:host=localhost;dbname=dasport-new',
             'username' => 'dasport',
             'password' => 'sPDa0rC1',
             'charset' => 'utf8',

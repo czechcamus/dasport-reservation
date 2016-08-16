@@ -17,6 +17,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class SubjectController extends Controller
 {
@@ -136,6 +137,19 @@ class SubjectController extends Controller
 		}
 
 		return $this->redirect(['index']);
+	}
+
+	/**
+	 * Returns array of all subjects in JSON format
+	 * @return \yii\console\Response|Response
+	 */
+	public function actionJsonData() {
+		$subjects = Subject::find()->orderBy(['name' => SORT_ASC])->asArray()->all();
+		array_unshift($subjects, ['id' => 0, 'name' => '== ' . Yii::t('back', 'new') . ' ==']);
+		$response = Yii::$app->response;
+		$response->format = Response::FORMAT_JSON;
+		$response->data = $subjects;
+		return $response;
 	}
 
 	/**
