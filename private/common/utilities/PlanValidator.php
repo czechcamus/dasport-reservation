@@ -26,7 +26,7 @@ class PlanValidator extends Validator {
 		$conflictPlans = [ ];
 		$value1 = \Yii::$app->formatter->asTimestamp( $model->{$this->firstAttribute} );
 		$value2 = \Yii::$app->formatter->asTimestamp( $model->$attribute );
-		/** @var @var $plans Plan */
+		/** @var $plans Plan */
 		/** @noinspection PhpUndefinedFieldInspection */
 		if ( $model->item_id ) {
 			/** @noinspection PhpUndefinedFieldInspection */

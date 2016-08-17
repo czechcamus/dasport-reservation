@@ -15,6 +15,7 @@ use common\models\Plan;
 use common\models\Usage;
 use common\utilities\DateToDateValidator;
 use common\utilities\NameValidator;
+use common\utilities\RepetitionValidator;
 use InvalidArgumentException;
 use Yii;
 
@@ -25,6 +26,7 @@ class UsageForm extends BackendForm {
 	public $time_from;
 	public $time_to;
 	public $repetition;
+	public $repetition_end_date;
 	public $name;
 	public $email;
 	public $phone;
@@ -37,7 +39,8 @@ class UsageForm extends BackendForm {
 	const DAY_REPEAT = 1;
 	const WEEK_REPEAT = 2;
 	const TWO_WEEK_REPEAT = 3;
-	const MONTH_REPEAT = 4;
+	const THREE_WEEK_REPEAT = 4;
+	const FOUR_WEEK_REPEAT = 5;
 
 	public function __construct( $config ) {
 		$this->_plan = Plan::findOne($config['plan_id']);
@@ -51,13 +54,18 @@ class UsageForm extends BackendForm {
 	 */
 	public function rules() {
 		return [
+			[ [ 'name', 'email', 'phone' ], 'required' ],
 			[ [ 'name', 'email' ], 'string', 'max' => 50 ],
 			[ 'name', NameValidator::className() ],
 			[ 'email' , 'email' ],
-			[ [ 'phone' ], 'string', 'max' => 20 ],
-			[ 'time_from', DateToDateValidator::className(), 'compareAttribute' => 'time_to', 'operator' => '<'],
-			[ 'repetition' , 'boolean' ],
-			[ 'notice', 'string' ]
+			[ 'phone', 'string', 'max' => 20 ],
+			[ [ 'time_from', 'time_to' ], 'integer' ],
+			[ 'time_from', 'compare', 'compareAttribute' => 'time_to', 'operator' => '<'],
+			[ 'repetition_end_date', 'date', 'format' => 'y-MM-dd' ],
+			[ 'repetition_end_date', DateToDateValidator::className(), 'compareAttribute' => 'date', 'operator' => '>=' ],
+			[ 'repetition' , RepetitionValidator::className(), 'limitsAttributes' => ['time_from', 'time_to'] ],
+			[ 'notice', 'string' ],
+			[ 'date', 'safe' ]
 		];
 	}
 
@@ -74,6 +82,7 @@ class UsageForm extends BackendForm {
 			'time_from' => Yii::t('app', 'Time from'),
 			'time_to' => Yii::t('app', 'Time to'),
 			'repetition' => Yii::t('app', 'Repetition'),
+			'repetition_end_date' => Yii::t('app', 'Repetition end date'),
 			'notice' => Yii::t('app', 'Notice')
 		];
 	}
@@ -84,6 +93,7 @@ class UsageForm extends BackendForm {
 	 */
 	public function setDate( $date ) {
 		$this->date = $date;
+		$this->repetition_end_date = $date;
 		$this->setDayTimes();
 	}
 
@@ -92,10 +102,8 @@ class UsageForm extends BackendForm {
 	 * @param $hour_nr
 	 */
 	public function setTimes($hour_nr) {
-		if ($this->_dayTimes) {
-			$this->time_from = $this->_dayTimes[$hour_nr];
-			$this->time_to = $this->_dayTimes[++$hour_nr];
-		}
+		$this->time_from = $hour_nr;
+		$this->time_to = ++$hour_nr;
 	}
 
 	/**
@@ -104,12 +112,21 @@ class UsageForm extends BackendForm {
 	 */
 	public function getRepeatOptions() {
 		return [
-			self::NO_REPEAT => Yii::t('back', 'no repeat'),
-			self::DAY_REPEAT => Yii::t('back', 'daily'),
-			self::WEEK_REPEAT => Yii::t('back', 'weekly'),
-			self::TWO_WEEK_REPEAT => Yii::t('back', 'fortnightly'),
-			self::MONTH_REPEAT => Yii::t('back', 'monthly')
+			self::NO_REPEAT         => Yii::t('back', 'no repeat'),
+			self::DAY_REPEAT        => Yii::t('back', 'daily'),
+			self::WEEK_REPEAT       => Yii::t('back', 'weekly'),
+			self::TWO_WEEK_REPEAT   => Yii::t('back', 'one time in two weeks'),
+			self::THREE_WEEK_REPEAT => Yii::t('back', 'one time in three weeks'),
+			self::FOUR_WEEK_REPEAT => Yii::t('back', 'one time in four weeks'),
 		];
+	}
+
+	/**
+	 * Returns plan object
+	 * @return Plan
+	 */
+	public function getPlan() {
+		return $this->_plan;
 	}
 
 	/**
@@ -117,7 +134,10 @@ class UsageForm extends BackendForm {
 	 * @return array
 	 */
 	public function getDayTimes() {
-		return $this->_dayTimes ?: [];
+		if (!$this->_dayTimes) {
+			$this->setDayTimes();
+		}
+		return $this->_dayTimes;
 	}
 
 	/**

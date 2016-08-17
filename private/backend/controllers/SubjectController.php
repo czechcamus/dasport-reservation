@@ -145,7 +145,7 @@ class SubjectController extends Controller
 	 */
 	public function actionJsonData() {
 		$subjects = Subject::find()->orderBy(['name' => SORT_ASC])->asArray()->all();
-		array_unshift($subjects, ['id' => 0, 'name' => '== ' . Yii::t('back', 'new') . ' ==']);
+		array_unshift($subjects, ['id' => 0]);
 		$response = Yii::$app->response;
 		$response->format = Response::FORMAT_JSON;
 		$response->data = $subjects;
