@@ -17,6 +17,7 @@ use yii\web\View;
 $actionId      = $this->context->action->id;
 $dayTimes      = $model->getDayTimes();
 $subjectsList =  ArrayHelper::merge(['0' => '== ' . Yii::t('back', 'new') . ' =='], Subject::getSubjects());
+$subject = $model->subject_id > 0 ? Subject::findOne($model->subject_id) : null;
 $timeFromTimes = array_slice( $dayTimes, 0, -1, true );
 $timeToTimes   = array_slice( $dayTimes, 1, null, true );
 ?>
@@ -37,18 +38,27 @@ $timeToTimes   = array_slice( $dayTimes, 1, null, true );
 					'value' => $model->subject_id > 0 ? $subjectsList[$model->subject_id] : '',
 					'disabled' => $model->subject_id > 0 ? true : false
 				]); ?>
-				<?= $form->field($model, 'email')->input('email'); ?>
-				<?= $form->field($model, 'phone')->textInput(); ?>
+				<?= $form->field($model, 'email')->input('email', [
+					'value' => $model->subject_id > 0 ? $subject->email : ''
+				]); ?>
+				<?= $form->field($model, 'phone')->textInput([
+					'value' => $model->subject_id > 0 ? $subject->phone : ''
+				]); ?>
 
 			</div>
 			<div class="col-xs-12 col-md-6">
-				<?= $form->field( $model, 'time_from' )->dropDownList( $timeFromTimes ); ?>
-				<?= $form->field( $model, 'time_to' )->dropDownList( $timeToTimes ); ?>
-				<?= $form->field( $model, 'repetition' )->dropDownList( $model->getRepeatOptions()); ?>
-				<?= $form->field($model, 'repetition_end_date')->widget( DateControl::className(), [
-					'type'     => DateControl::FORMAT_DATE,
-					'language' => Yii::$app->language
-				] ); ?>
+				<?php if ($actionId == 'create') {
+					echo $form->field( $model, 'time_from' )->dropDownList( $timeFromTimes );
+					echo $form->field( $model, 'time_to' )->dropDownList( $timeToTimes );
+					echo $form->field( $model, 'repetition' )->dropDownList( $model->getRepeatOptions());
+					echo $form->field($model, 'repetition_end_date')->widget( DateControl::className(), [
+						'type'     => DateControl::FORMAT_DATE,
+						'language' => Yii::$app->language
+					] );
+				} else {
+					echo '<p><strong>' . $model->getAttributeLabel('time_from') . '</strong><br /><h3>' . $timeFromTimes[$model->hour_nr] . '</h3></p>';
+					echo '<p><strong>' . $model->getAttributeLabel('time_to') . '</strong><br /><h3>' . $timeFromTimes[$model->hour_nr + 1] . '</h3></p>';
+				} ?>
 			</div>
 		</div>
 

@@ -9,12 +9,13 @@
 namespace backend\controllers;
 
 
-use backend\models\DayForm;
 use backend\models\UsageForm;
 use backend\utilities\PlanFilter;
+use common\models\Usage;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class UsageController extends Controller
 {
@@ -39,7 +40,7 @@ class UsageController extends Controller
 			throw new InvalidParamException(Yii::t('back', 'No time given!'));
 		}
 
-		$model = new UsageForm(['plan_id' => $this->plan->id,  'item_id' => null, 'action' => $this->action->id]);
+		$model = new UsageForm(['plan_id' => $this->plan->id,  'item_id' => null, 'action' => UsageForm::SCENARIO_CREATE]);
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
@@ -67,17 +68,49 @@ class UsageController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model = new DayForm(['plan_id' => $this->plan->id,  'item_id' => $id, 'action' => $this->action->id]);
+		$model = new UsageForm(['plan_id' => $this->plan->id,  'item_id' => $id, 'action' => UsageForm::SCENARIO_UPDATE]);
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->save(false);
 
 			$session = Yii::$app->session;
-			$session->setFlash('info', Yii::t('back', 'Day successfully updated!'));
+			$session->setFlash('info', Yii::t('back', 'Usage successfully updated!'));
 
-			return $this->redirect(['/plan/view', 'device_id' => $this->plan->device->id, 'id' => $this->plan->id]);
+			return $this->redirect(['device/view', 'id' => $this->plan->device->id]);
 		}
 		return $this->render('update', compact('model'));
 	}
 
+	/**
+	 * Deletes an existing record model.
+	 * If deletion is successful, the browser will be redirected to the 'device/view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionDelete($id)
+	{
+		$model = $this->findModel($id);
+		if ($model->delete()) {
+			$session = Yii::$app->session;
+			$session->setFlash('info', Yii::t('back', 'Usage successfully deleted!'));
+		}
+
+		return $this->redirect(['device/view', 'id' => $this->plan->device->id]);
+	}
+
+	/**
+	 * Finds the model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param integer $id
+	 * @return Usage the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+	protected function findModel($id)
+	{
+		if (($model = Usage::findOne($id)) !== null) {
+			return $model;
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+	}
 }

@@ -45,11 +45,26 @@ class UsageForm extends BackendForm {
 	const THREE_WEEK_REPEAT = 4;
 	const FOUR_WEEK_REPEAT = 5;
 
+	const SCENARIO_CREATE = 'create';
+	const SCENARIO_UPDATE = 'update';
+
 	public function __construct( $config ) {
 		$this->_plan = Plan::findOne($config['plan_id']);
+		$this->scenario = $config['action'];
 		$this->modelClass = Usage::className();
 		array_shift( $config );
 		parent::__construct( $config );
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function scenarios()
+	{
+		$scenarios = parent::scenarios();
+		$scenarios[self::SCENARIO_CREATE] = ['subject_id', 'name', 'email', 'phone', 'notice', 'date', 'time_from', 'time_to', 'repetition', 'repetition_end_date'];
+		$scenarios[self::SCENARIO_UPDATE] = ['subject_id', 'device_id', 'name', 'email', 'phone', 'notice', 'date', 'hour_nr'];
+		return $scenarios;
 	}
 
 	/**
@@ -67,13 +82,14 @@ class UsageForm extends BackendForm {
 			} ],
 			[ 'email' , 'email' ],
 			[ 'phone', 'string', 'max' => 20 ],
-			[ [ 'time_from', 'time_to' ], 'integer' ],
-			[ 'time_from', 'compare', 'compareAttribute' => 'time_to', 'operator' => '<'],
-			[ 'repetition_end_date', 'date', 'format' => 'y-MM-dd' ],
-			[ 'repetition_end_date', DateToDateValidator::className(), 'compareAttribute' => 'date', 'operator' => '>=' ],
-			[ 'repetition' , RepetitionValidator::className(), 'limitsAttributes' => ['time_from', 'time_to'] ],
+			[ [ 'time_from', 'time_to' ], 'integer', 'on' => self::SCENARIO_CREATE ],
+			[ 'time_from', 'compare', 'compareAttribute' => 'time_to', 'operator' => '<', 'on' => self::SCENARIO_CREATE ],
+			[ 'repetition_end_date', 'date', 'format' => 'y-MM-dd', 'on' => self::SCENARIO_CREATE ],
+			[ 'repetition_end_date', DateToDateValidator::className(), 'compareAttribute' => 'date', 'operator' => '>=', 'on' => self::SCENARIO_CREATE ],
+			[ 'repetition' , RepetitionValidator::className(), 'limitsAttributes' => ['time_from', 'time_to'], 'on' => self::SCENARIO_CREATE ],
 			[ 'notice', 'string' ],
-			[ [ 'date', 'subject_id' ], 'safe' ]
+			[ [ 'date', 'subject_id' ], 'safe' ],
+			[ [ 'device_id', 'hour_nr'], 'safe', 'on' => self::SCENARIO_UPDATE ]
 		];
 	}
 
