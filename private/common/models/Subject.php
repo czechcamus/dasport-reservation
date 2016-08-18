@@ -85,4 +85,14 @@ class Subject extends ActiveRecord
     {
         return new SubjectQuery(get_called_class());
     }
+
+	/**
+	 * Returns subjects list for dropdowns
+	 * @return array
+	 */
+	public static function getSubjects() {
+		return ArrayHelper::map(self::find()->orderBy([
+			'name' => SORT_ASC
+		])->all(), 'id', 'name');
+	}
 }

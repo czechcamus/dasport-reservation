@@ -49,39 +49,35 @@ class RepetitionValidator extends Validator {
 			}
 
 			/** @var UsageForm $model */
-			if ($model->$attribute == UsageForm::NO_REPEAT) {
-				$requestedUsages = [[
-					'date' => $model->date,
-					'time_from' => $model->{$this->limitsAttributes[0]},
-					'time_to' => $model->{$this->limitsAttributes[1]}
-				]];
-			} else {
-				$dayTimeValue = 86400;
-				switch ($model->$attribute) {
-					case UsageForm::WEEK_REPEAT:
-						$additionalTime = 7 * $dayTimeValue;
-						break;
-					case UsageForm::TWO_WEEK_REPEAT;
-						$additionalTime = 14 * $dayTimeValue;
-						break;
-					case UsageForm::THREE_WEEK_REPEAT;
-						$additionalTime = 21 * $dayTimeValue;
-						break;
-					case UsageForm::FOUR_WEEK_REPEAT;
-						$additionalTime = 28 * $dayTimeValue;
-						break;
-					default:
-						$additionalTime = $dayTimeValue;
-						break;
-				}
-				/** @noinspection PhpUndefinedFieldInspection */
-				for ($i = \Yii::$app->formatter->asTimestamp($model->date); $i <= \Yii::$app->formatter->asTimestamp($model->repetition_end_date); $i += $additionalTime) {
-					for ($j = $model->{$this->limitsAttributes[0]}; $j < $model->{$this->limitsAttributes[1]}; ++$j) {
-						$requestedUsages[] = [
-							'date' => \Yii::$app->formatter->asDate($i, 'y-MM-dd'),
-							'hour_nr' => $j
-						];
-					}
+			$dayTimeValue = 86400;
+			switch ($model->$attribute) {
+				case UsageForm::DAY_REPEAT:
+					$additionalTime = $dayTimeValue;
+					break;
+				case UsageForm::WEEK_REPEAT:
+					$additionalTime = 7 * $dayTimeValue;
+					break;
+				case UsageForm::TWO_WEEK_REPEAT;
+					$additionalTime = 14 * $dayTimeValue;
+					break;
+				case UsageForm::THREE_WEEK_REPEAT;
+					$additionalTime = 21 * $dayTimeValue;
+					break;
+				case UsageForm::FOUR_WEEK_REPEAT;
+					$additionalTime = 28 * $dayTimeValue;
+					break;
+				default:
+					$model->repetition_end_date = $model->date;
+					$additionalTime = $dayTimeValue;
+					break;
+			}
+			/** @noinspection PhpUndefinedFieldInspection */
+			for ($i = \Yii::$app->formatter->asTimestamp($model->date); $i <= \Yii::$app->formatter->asTimestamp($model->repetition_end_date); $i += $additionalTime) {
+				for ($j = $model->{$this->limitsAttributes[0]}; $j < $model->{$this->limitsAttributes[1]}; ++$j) {
+					$requestedUsages[] = [
+						'date' => \Yii::$app->formatter->asDate($i, 'y-MM-dd'),
+						'hour_nr' => $j
+					];
 				}
 			}
 
@@ -93,7 +89,7 @@ class RepetitionValidator extends Validator {
 				];
 				if (array_search($searchedArray, $requestedUsages)) {
 					/** @noinspection PhpUndefinedFieldInspection */
-					$conflictUsages[] = $usage->date . ' ' . $model->dateTimes[$usage->hour_nr] . ': ' . $usage->subject->name;
+					$conflictUsages[] = \Yii::$app->formatter->asDate($usage->date, 'dd.MM.y') . ' ' . $model->dayTimes[$usage->hour_nr] . ': ' . $usage->subject->name;
 					$error           = true;
 				}
 			}

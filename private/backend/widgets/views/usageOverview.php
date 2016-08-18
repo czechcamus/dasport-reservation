@@ -35,17 +35,13 @@ use yii\helpers\Html;
 						if ( date( 'H:i', $j ) >= date( 'H:i', strtotime( $day->time_from ) ) && date( 'H:i',
 								$j ) < date( 'H:i', strtotime( $day->time_to ) )
 						) {
-							echo '<tr>';
-							echo '<td>' . date( 'H:i', $j ) . '</td>';
-							echo '<td';
-							if ( $usage = Usage::find()->where( [ 'device_id' => $device->id ] )->andWhere( [
+							$usage = Usage::find()->where( [ 'device_id' => $device->id ] )->andWhere( [
 								'date' => date( 'Y-m-d', $i )
-							] )->andWhere( [ 'hour_nr' => $k ] )->one()
-							) {
-								echo ' class="used"';
-							}
-							echo ' style="width: 70%">' . ( $usage ? $usage->subject->name : '&nbsp;' ) . '</td>';
-							echo '<td>';
+							] )->andWhere( [ 'hour_nr' => $k ] )->one();
+							echo '<tr' . ($usage ? ' class="used"' : '') .  '>';
+							echo '<td style="width: 3em;">' . date( 'H:i', $j ) . '</td>';
+							echo '<td>' . ( $usage ? $usage->subject->name : '&nbsp;' ) . '</td>';
+							echo '<td style="text-align: center; width: 4em;">';
 							if ( $usage ) {
 								echo Html::a( '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', [
 									'/usage/update',
@@ -53,6 +49,7 @@ use yii\helpers\Html;
 								], [
 									'title' => Yii::t( 'back', 'Update usage' ),
 									'class' => 'btn btn-link',
+									'style' => 'padding: 0;'
 								] );
 								echo Html::a( '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>', [
 									'/usage/delete',
@@ -60,6 +57,7 @@ use yii\helpers\Html;
 								], [
 									'title' => Yii::t( 'back', 'Delete usage' ),
 									'class' => 'btn btn-link',
+									'style' => 'padding: 0;'
 								] );
 							} else {
 								echo Html::a( '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>', [
@@ -70,12 +68,13 @@ use yii\helpers\Html;
 								], [
 									'title' => Yii::t( 'back', 'Add usage' ),
 									'class' => 'btn btn-link',
+									'style' => 'padding: 0;'
 								] );
 							}
 							echo '</td>';
 							echo '</tr>';
 						} else {
-							echo '<tr><td colspan="3" style="padding: 12px;">&nbsp;</td></tr>';
+							echo '<tr><td colspan="3" style="text-align: center;"><span class="glyphicon glyphicon-minus btn" aria-hidden="true" style="padding: 0; cursor: default;"></span></td></tr>';
 						}
 						++ $k;
 					}

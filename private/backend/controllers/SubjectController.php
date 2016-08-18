@@ -140,15 +140,17 @@ class SubjectController extends Controller
 	}
 
 	/**
-	 * Returns array of all subjects in JSON format
+	 * Returns one subject in JSON format
+	 *
+	 * @param $id int subject id
+	 *
 	 * @return \yii\console\Response|Response
 	 */
-	public function actionJsonData() {
-		$subjects = Subject::find()->orderBy(['name' => SORT_ASC])->asArray()->all();
-		array_unshift($subjects, ['id' => 0]);
+	public function actionJsonData($id) {
+		$subject = Subject::findOne(['id' => $id]);
 		$response = Yii::$app->response;
 		$response->format = Response::FORMAT_JSON;
-		$response->data = $subjects;
+		$response->data = $subject->toArray();
 		return $response;
 	}
 
