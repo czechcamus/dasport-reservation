@@ -50,7 +50,7 @@ class UsageController extends Controller
 				$session = Yii::$app->session;
 				$session->setFlash('info', Module::t('res', 'New usage(s) successfully added!'));
 
-				return $this->redirect(['device/view', 'id' => $this->plan->device->id]);
+				return $this->redirect(['/reservation/device/view', 'id' => $this->plan->device->id]);
 			}
 		} else {
 			$model->setDate($date);
@@ -77,7 +77,7 @@ class UsageController extends Controller
 			$session = Yii::$app->session;
 			$session->setFlash('info', Module::t('res', 'Usage successfully updated!'));
 
-			return $this->redirect(['device/view', 'id' => $this->plan->device->id]);
+			return $this->redirect(['/reservation/device/view', 'id' => $this->plan->device->id]);
 		}
 		return $this->render('update', compact('model'));
 	}
@@ -96,7 +96,7 @@ class UsageController extends Controller
 			$session->setFlash('info', Module::t('res', 'Usage successfully deleted!'));
 		}
 
-		return $this->redirect(['device/view', 'id' => $this->plan->device->id]);
+		return $this->redirect(['/reservation/device/view', 'id' => $this->plan->device->id]);
 	}
 
 	/**

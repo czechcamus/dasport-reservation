@@ -121,7 +121,7 @@ class PlanController extends Controller
 			$session->setFlash('info', Module::t('res', 'Plan successfully deleted!'));
 		}
 
-		return $this->redirect(['/device/view', 'id' => $this->device->id]);
+		return $this->redirect(['/reservation/device/view', 'id' => $this->device->id]);
 	}
 
 	/**

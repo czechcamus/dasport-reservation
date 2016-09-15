@@ -46,7 +46,7 @@ class PriceController extends Controller
 			$session = Yii::$app->session;
 			$session->setFlash('info', Module::t('res', 'New price successfully added!'));
 
-			return $this->redirect(['/device/view', 'id' => $this->device->id]);
+			return $this->redirect(['/reservation/device/view', 'id' => $this->device->id]);
 		}
 
 		return $this->render('create', compact('model'));
@@ -68,7 +68,7 @@ class PriceController extends Controller
 			$session = Yii::$app->session;
 			$session->setFlash('info', Module::t('res', 'New price successfully added!'));
 
-			return $this->redirect(['/device/view', 'id' => $this->device->id]);
+			return $this->redirect(['/reservation/device/view', 'id' => $this->device->id]);
 		}
 
 		return $this->render('create', compact('model'));
@@ -90,7 +90,7 @@ class PriceController extends Controller
 			$session = Yii::$app->session;
 			$session->setFlash('info', Module::t('res', 'Price successfully updated!'));
 
-			return $this->redirect(['/device/view', 'id' => $this->device->id]);
+			return $this->redirect(['/reservation/device/view', 'id' => $this->device->id]);
 		}
 		return $this->render('update', compact('model'));
 	}
@@ -109,7 +109,7 @@ class PriceController extends Controller
 			$session->setFlash('info', Module::t('res', 'Price successfully deleted!'));
 		}
 
-		return $this->redirect(['/device/view', 'id' => $this->device->id]);
+		return $this->redirect(['/reservation/device/view', 'id' => $this->device->id]);
 	}
 
 	/**

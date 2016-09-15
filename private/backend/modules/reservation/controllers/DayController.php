@@ -47,7 +47,7 @@ class DayController extends Controller
 			$session = Yii::$app->session;
 			$session->setFlash('info', Module::t('res', 'Day successfully updated!'));
 
-			return $this->redirect(['/plan/view', 'device_id' => $this->plan->device->id, 'id' => $this->plan->id]);
+			return $this->redirect(['/reservation/plan/view', 'device_id' => $this->plan->device->id, 'id' => $this->plan->id]);
 		}
 		return $this->render('update', compact('model'));
 	}
