@@ -1,5 +1,4 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
-	'dayListDefaultPeriod' => 14
+    'adminEmail' => 'admin@example.com'
 ];

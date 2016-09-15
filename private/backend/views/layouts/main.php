@@ -37,9 +37,9 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => Yii::t('back', 'Home'), 'url' => ['/site/index']],
         ['label' => Yii::t('back', 'Reservation'), 'items' => [
-            ['label' => Yii::t('back', 'Requests'), 'url' => ['/request/index']],
-            ['label' => Yii::t('back', 'Devices'), 'url' => ['/device/index']],
-            ['label' => Yii::t('back', 'Subjects'), 'url' => ['/subject/index']]
+            ['label' => Yii::t('back', 'Requests'), 'url' => ['/reservation/request/index']],
+            ['label' => Yii::t('back', 'Devices'), 'url' => ['/reservation/device/index']],
+            ['label' => Yii::t('back', 'Subjects'), 'url' => ['/reservation/subject/index']]
         ], 'visible' => !Yii::$app->user->isGuest],
     ];
     if (Yii::$app->user->isGuest) {

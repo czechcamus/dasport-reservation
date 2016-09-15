@@ -1,4 +1,6 @@
 <?php
+use backend\modules\reservation\Module;
+
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
@@ -12,7 +14,11 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+    	'reservation' => [
+    		'class' => Module::className()
+	    ]
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
