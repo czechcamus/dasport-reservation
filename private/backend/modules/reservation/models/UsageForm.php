@@ -80,7 +80,7 @@ class UsageForm extends BackendForm {
 			[ 'email' , 'email' ],
 			[ 'phone', 'string', 'max' => 20 ],
 			[ [ 'time_from', 'time_to' ], 'integer', 'on' => self::SCENARIO_CREATE ],
-			[ 'time_from', 'compare', 'compareAttribute' => 'time_to', 'operator' => '<', 'on' => self::SCENARIO_CREATE ],
+			[ 'time_from', 'compare', 'compareAttribute' => 'time_to', 'operator' => '<', 'type' => 'number', 'on' => self::SCENARIO_CREATE ],
 			[ 'repetition_end_date', 'date', 'format' => 'y-MM-dd', 'on' => self::SCENARIO_CREATE ],
 			[ 'repetition_end_date', DateToDateValidator::className(), 'compareAttribute' => 'date', 'operator' => '>=', 'on' => self::SCENARIO_CREATE ],
 			[ 'repetition' , RepetitionValidator::className(), 'limitsAttributes' => ['time_from', 'time_to'], 'on' => self::SCENARIO_CREATE ],
