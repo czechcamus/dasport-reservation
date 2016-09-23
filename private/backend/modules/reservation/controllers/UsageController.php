@@ -15,6 +15,7 @@ use backend\modules\reservation\utilities\PlanFilter;
 use backend\modules\reservation\models\Usage;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -29,6 +30,15 @@ class UsageController extends Controller
 		return [
 			'plan' => [
 				'class' => PlanFilter::className()
+			],
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'roles' => ['booker'],
+						'allow' => true
+					]
+				]
 			]
 		];
 	}

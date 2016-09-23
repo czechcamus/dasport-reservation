@@ -38,7 +38,7 @@ class SubjectController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'roles' => ['@'],
+						'roles' => ['booker'],
 						'allow' => true
 					]
 				]

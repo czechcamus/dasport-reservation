@@ -14,6 +14,7 @@ use backend\modules\reservation\Module;
 use backend\modules\reservation\utilities\DeviceFilter;
 use backend\modules\reservation\models\Plan;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -28,6 +29,15 @@ class PlanController extends Controller
 		return [
 			'device' => [
 				'class' => DeviceFilter::className()
+			],
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'roles' => ['booker'],
+						'allow' => true
+					]
+				]
 			]
 		];
 	}

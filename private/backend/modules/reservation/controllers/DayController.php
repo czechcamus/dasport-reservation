@@ -13,6 +13,7 @@ use backend\modules\reservation\models\DayForm;
 use backend\modules\reservation\Module;
 use backend\modules\reservation\utilities\PlanFilter;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 class DayController extends Controller
@@ -26,6 +27,15 @@ class DayController extends Controller
 		return [
 			'plan' => [
 				'class' => PlanFilter::className()
+			],
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'roles' => ['booker'],
+						'allow' => true
+					]
+				]
 			]
 		];
 	}

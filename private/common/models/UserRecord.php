@@ -5,6 +5,8 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -21,18 +23,18 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
+class UserRecord extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 5;
     const STATUS_ACTIVE = 10;
-
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user';
+        return '{{%user}}';
     }
 
     /**
@@ -55,6 +57,18 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+			'username' => Yii::t('app', 'Username'),
+			'password' => Yii::t('app', 'Password'),
+			'status' => Yii::t('app', 'Status')
+		];
+	}
 
     /**
      * @inheritdoc
@@ -112,9 +126,9 @@ class User extends ActiveRecord implements IdentityInterface
         if (empty($token)) {
             return false;
         }
-
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        $parts = explode('_', $token);
+        $timestamp = (int) end($parts);
         return $timestamp + $expire >= time();
     }
 
@@ -186,4 +200,27 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * Returns status text
+     * @return string
+     */
+    public function getStatusText() {
+        $textArray = [
+	        self::STATUS_ACTIVE => Yii::t('app', 'Active'),
+	        self::STATUS_INACTIVE => Yii::t('app', 'Inactive')
+        ];
+        return $textArray[$this->status];
+    }
+
+	/**
+	 * Gets human readable role
+	 * @param $roleName
+	 * @return mixed
+	 */
+	public function getRoleText($roleName) {
+		$options = (new Query)->select('name, data')->from('auth_item')->all();
+		$texts = ArrayHelper::map($options, 'name', 'data');
+		return $texts[$roleName];
+	}
 }

@@ -5,7 +5,7 @@ namespace frontend\tests\unit\models;
 use Yii;
 use frontend\models\PasswordResetRequestForm;
 use common\fixtures\User as UserFixture;
-use common\models\User;
+use common\models\UserRecord;
 
 class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 {
@@ -45,7 +45,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
         
         $model = new PasswordResetRequestForm();
         $model->email = $userFixture['email'];
-        $user = User::findOne(['password_reset_token' => $userFixture['password_reset_token']]);
+        $user = UserRecord::findOne(['password_reset_token' => $userFixture['password_reset_token']]);
 
         expect_that($model->sendEmail());
         expect_that($user->password_reset_token);
